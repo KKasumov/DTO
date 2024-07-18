@@ -1,0 +1,59 @@
+plugins {
+    id 'java-library'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.5'
+    id 'maven-publish'
+}
+
+group = 'com.kasumov'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0'
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact("build/libs/DTO-1.0.0.jar") {
+                classifier 'maven'
+                extension 'jar'
+            }
+        }
+
+        maven(MavenPublication) {
+            from components.java
+            artifact("build/libs/DTO-1.0.0.jar") {
+                extension 'jar'
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()    }
+}
+
+
